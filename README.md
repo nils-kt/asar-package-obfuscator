@@ -1,5 +1,5 @@
 # asar package (javascript) obfuscator
-Obfuscate all .js files - the javascript-obfuscator is used for this purpose
+Obfuscate all .js files in an asar archive.
 
 ### How it works?
 It is very simple, but effective! Depending on how you setup the obfuscator.  
