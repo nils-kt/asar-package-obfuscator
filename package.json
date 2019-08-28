@@ -1,0 +1,30 @@
+{
+  "name": "asar-package-obfuscator",
+  "version": "1.0.0",
+  "description": "Obfuscate all .js files in an asar archive.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timedotcc/asar-package-obfuscator.git"
+  },
+  "keywords": [
+    "asar",
+    "obfuscate",
+    "javascript"
+  ],
+  "author": "Nils Kleinert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timedotcc/asar-package-obfuscator/issues"
+  },
+  "homepage": "https://github.com/timedotcc/asar-package-obfuscator#readme",
+  "dependencies": {
+    "asar": "^2.0.1",
+    "javascript-obfuscator": "^0.18.1",
+    "recursive-readdir": "^2.2.2",
+    "rimraf": "^3.0.0"
+  }
+}
