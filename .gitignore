@@ -61,4 +61,5 @@ typings/
 .next
 
 # ignore vscode environment
+/.vscode/
 /.vscode/launch.json
