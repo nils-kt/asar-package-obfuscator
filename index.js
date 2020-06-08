@@ -25,19 +25,15 @@ var asarFullFileName = path.normalize(argv.input);
 var outputFullFileName = (argv.output) ? path.normalize(argv.output) : asarFullFileName + ".new";
 var outputFolder = path.dirname(outputFullFileName);
 
-console.log(outputFullFileName);
-console.log(argv);
-
 // Set your resources folder
 var resourcesFolder = path.dirname(asarFullFileName);
-console.log(resourcesFolder);
 
 console.log('\n\nasar package javascript obfuscator\n\n');
 
 console.log('Unpacking archive');
 asar.extractAll(asarFullFileName, outputFolder + '\\this_is_a_temporal_folder');
 
-console.log('Deleting app.asar');
+//console.log('Deleting app.asar');
 //fs.unlinkSync(resourcesFolder + '\\app.asar');
 
 //process.exit(0);
@@ -47,7 +43,12 @@ recursive(outputFolder + '\\this_is_a_temporal_folder', ['node_modules', 'app'],
     files.forEach(file => {
         if (path.extname(file) === '.js') {
             let contents = fs.readFileSync(file, 'utf8');
+            /* NOTE: This is a quick filter to bypass some syntaxis currently not supported by javascript-obfuscator
+            /*
             if((contents.indexOf("?.") < 0) && (contents.indexOf(".#") < 0)) {
+            /* */
+            if(true) {
+            /* */
                 console.log('Protecting ' + file);
 
                 // Change the settings here  -  https://github.com/javascript-obfuscator/javascript-obfuscator
