@@ -25,6 +25,7 @@
     "asar": "^2.0.1",
     "javascript-obfuscator": "^0.18.1",
     "recursive-readdir": "^2.2.2",
-    "rimraf": "^3.0.0"
+    "rimraf": "^3.0.0",
+    "yargs": "^15.3.1"
   }
 }
