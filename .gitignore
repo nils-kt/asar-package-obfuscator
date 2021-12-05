@@ -63,3 +63,6 @@ typings/
 # ignore vscode environment
 /.vscode/
 /.vscode/launch.json
+
+# IDEA
+.idea

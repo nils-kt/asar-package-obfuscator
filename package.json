@@ -23,7 +23,8 @@
   "homepage": "https://github.com/timedotcc/asar-package-obfuscator#readme",
   "dependencies": {
     "asar": "^2.0.1",
-    "javascript-obfuscator": "^2.11.0",
+    "javascript-obfuscator": "^3.0.0",
+    "ololog": "^1.1.175",
     "recursive-readdir": "^2.2.2",
     "rimraf": "^3.0.0",
     "yargs": "^15.3.1"

@@ -1,9 +1,13 @@
-var fs = require('fs');
-var path = require('path');
-var recursive = require('recursive-readdir');
-var rimraf = require('rimraf');
-var asar = require('asar');
-var javaScriptObfuscator = require('javascript-obfuscator');
+const fs = require('fs');
+const path = require('path');
+const recursive = require('recursive-readdir');
+const rimraf = require('rimraf');
+const {createPackage, extractAll} = require('asar');
+const javaScriptObfuscator = require('javascript-obfuscator');
+const log = require('ololog').configure({});
+
+//Set folders to ignore
+const toIgnore = ['node_modules', 'app'];
 
 // Parse/Get CLI arguments using yargs -> http://yargs.js.org/
 const argv = require('yargs')
@@ -18,82 +22,76 @@ const argv = require('yargs')
                 description: 'output ASAR file',
                 default: null
             })
-}).argv;
+    }).argv;
 
 // Set parameters from arguments
-var asarFullFileName = path.normalize(argv.input);
-var outputFullFileName = (argv.output) ? path.normalize(argv.output) : asarFullFileName + ".new";
-var outputFolder = path.dirname(outputFullFileName);
+const asarFullFileName = path.normalize(argv.input);
+const outputFullFileName = (argv.output) ? path.normalize(argv.output) : asarFullFileName + ".new";
+const outputFolder = path.dirname(outputFullFileName);
 
-// Set your resources folder
-var resourcesFolder = path.dirname(asarFullFileName);
 
-console.log('\n\nasar package javascript obfuscator\n\n');
+log.lightGray.noLocate('asar package javascript obfuscator');
+log.dim.noLocate("-----------------------------------");
+log.blue.info.noLocate('Unpacking archive');
 
-console.log('Unpacking archive');
-asar.extractAll(asarFullFileName, outputFolder + '\\this_is_a_temporal_folder');
+try {
+    extractAll(asarFullFileName, `${outputFolder}\\temp_folder`);
+} catch (err) {
+    log.red.error.noLocate(err.message);
+    return;
+}
 
-//console.log('Deleting app.asar');
-//fs.unlinkSync(resourcesFolder + '\\app.asar');
-
-//process.exit(0);
-
-// Enter the directories to be ignored
-recursive(outputFolder + '\\this_is_a_temporal_folder', ['node_modules', 'app'], function (err, files) {
+recursive(`${outputFolder}\\temp_folder`, toIgnore, function (err, files) {
     files.forEach(file => {
         if (path.extname(file) === '.js') {
-            let contents = fs.readFileSync(file, 'utf8');
-            /* NOTE: This is a quick filter to bypass some syntaxis currently not supported by javascript-obfuscator
-            /*
-            if((contents.indexOf("?.") < 0) && (contents.indexOf(".#") < 0)) {
-            /* */
-            if(true) {
-            /* */
-                console.log('Protecting ' + file);
+            const contents = fs.readFileSync(file, 'utf8');
+            log.green.noLocate('Protecting ' + file);
 
-                // Change the settings here  -  https://github.com/javascript-obfuscator/javascript-obfuscator
-                let ret = javaScriptObfuscator.obfuscate(contents, {
-                    compact: true
-                    , controlFlowFlattening: false
-                    , controlFlowFlatteningThreshold: 0.75
-                    , deadCodeInjection: false
-                    , deadCodeInjectionThreshold: 0.4
-                    , debugProtection: false
-                    , debugProtectionInterval: false
-                    , disableConsoleOutput: false
-                    , domainLock: []
-                    , identifierNamesGenerator: 'hexadecimal'
-                    , identifiersPrefix: ''
-                    , inputFileName: ''
-                    , log: false
-                    , renameGlobals: false
-                    , reservedNames: []
-                    , reservedStrings: []
-                    , rotateStringArray: true
-                    , seed: 0
-                    , selfDefending: false
-                    , sourceMap: false
-                    , sourceMapBaseUrl: ''
-                    , sourceMapFileName: ''
-                    , sourceMapMode: 'separate'
-                    , stringArray: true
-                    , stringArrayEncoding: false
-                    , stringArrayThreshold: 0.75
-                    , target: 'node'
-                    , transformObjectKeys: false
-                    , unicodeEscapeSequence: false
-                });
-                fs.writeFileSync(file, ret);
-            }
+            // Change the settings here  -  https://github.com/javascript-obfuscator/javascript-obfuscator
+            let ret = javaScriptObfuscator.obfuscate(contents, {
+                compact: true
+                , controlFlowFlattening: false
+                , controlFlowFlatteningThreshold: 0.75
+                , deadCodeInjection: false
+                , deadCodeInjectionThreshold: 0.4
+                , debugProtection: false
+                , debugProtectionInterval: false
+                , disableConsoleOutput: false
+                , domainLock: []
+                , identifierNamesGenerator: 'hexadecimal'
+                , identifiersPrefix: ''
+                , inputFileName: ''
+                , log: false
+                , renameGlobals: false
+                , reservedNames: []
+                , reservedStrings: []
+                , rotateStringArray: true
+                , seed: 0
+                , selfDefending: false
+                , sourceMap: false
+                , sourceMapBaseUrl: ''
+                , sourceMapFileName: ''
+                , sourceMapMode: 'separate'
+                , stringArray: true
+                , stringArrayEncoding: false
+                , stringArrayThreshold: 0.75
+                , target: 'node'
+                , transformObjectKeys: false
+                , unicodeEscapeSequence: false
+            });
+            fs.writeFileSync(file, ret.getObfuscatedCode());
         }
     });
-    console.log('Packing asar archive');
-    asar.createPackage(outputFolder + '\\this_is_a_temporal_folder', outputFullFileName)
-    .then(() => {
-        console.log('Created secure asar archive');
-        console.log('Deleting src directory');
-        rimraf(outputFolder + '\\this_is_a_temporal_folder', function () {
-            console.log('Done! Have fun.');
-        });
+    log.blue.info.noLocate('Packing asar archive');
+    createPackage(`${outputFolder}\\temp_folder`, outputFullFileName)
+        .then(() => {
+            log.blue.info.noLocate('Created secure asar archive');
+            log.blue.info.noLocate('Deleting src directory');
+            rimraf(`${outputFolder}\\temp_folder`, function () {
+                log.green.info.noLocate('Done! Have fun.');
+            });
+        }).catch(err => {
+        log.red.error.noLocate('Error!', err.message);
+        return;
     });
 });
