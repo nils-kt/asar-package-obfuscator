@@ -1,6 +1,8 @@
 # Asar Package (JavaScript) Obfuscator
 Obfuscate all .js files in an asar archive.
 
+![Code Quality Store](https://api.codiga.io/project/30341/score/svg)
+
 ### How it works?
 It is very simple, but effective! Depending on how you setup the obfuscator.  
 The packed asar archive will be unpacked, obfuscated and packed back into the archive. And all this is completely automated.
