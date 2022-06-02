@@ -55,7 +55,7 @@ recursive(`${outputFolder}\\temp_folder`, toIgnore, function (err, files) {
                 , deadCodeInjection: false
                 , deadCodeInjectionThreshold: 0.4
                 , debugProtection: false
-                , debugProtectionInterval: false
+                , debugProtectionInterval: 0
                 , disableConsoleOutput: false
                 , domainLock: []
                 , identifierNamesGenerator: 'hexadecimal'
