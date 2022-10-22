@@ -73,7 +73,7 @@ recursive(`${outputFolder}\\temp_folder`, toIgnore, function (err, files) {
                 , sourceMapFileName: ''
                 , sourceMapMode: 'separate'
                 , stringArray: true
-                , stringArrayEncoding: false
+                , stringArrayEncoding: ['none']
                 , stringArrayThreshold: 0.75
                 , target: 'node'
                 , transformObjectKeys: false
