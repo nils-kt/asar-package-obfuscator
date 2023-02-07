@@ -1,24 +1,23 @@
-# Asar Package (JavaScript) Obfuscator
-Obfuscate all .js files in an asar archive.
+# JavaScript Obfuscator for ASAR Archives
 
-![Code Quality Store](https://api.codiga.io/project/30341/score/svg)
+A script that protects JavaScript files within an ASAR archive using JavaScript Obfuscator.
 
-### How it works?
-It is very simple, but effective! Depending on how you setup the obfuscator.  
-The packed asar archive will be unpacked, obfuscated and packed back into the archive. And all this is completely automated.
+## Prerequisites
+- Node.js
+- npm modules: fs, path, recursive-readdir, rimraf, asar, javascript-obfuscator, ololog, yargs
 
-### Usage
-`Important: This is not a finished package, it should be seen as a development tool.`
+## Usage
+1. Clone or download the repository.
+2. Install required npm modules with `npm install`.
+3. Run the script with `node index.js [input-asar-file] [output-asar-file]`.
+   - `input-asar-file`: ASAR archive to be protected.
+   - `output-asar-file`: name of the protected ASAR archive (optional, default: input-asar-file with '.new' suffix).
+4. Protected ASAR archive will be created.
 
-The usage is very simple. For example, if we have our app.asar from Electron:
-```text
-node index.js "../app.asar"
-```
+## Details
+- All JavaScript files within the ASAR archive will be protected.
+- The output file will be in the same directory as the input file.
+- A temporary directory will be created and deleted after completion.
+- Error messages will be displayed in the terminal/command line.
 
-Optionally, we can also specify the output folder.
-```text
-node index.js "../app.asar" -o "../dist"
-```
-
-### Thanks!
-At this point many thanks to [javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator).
+This script is meant to be used as a development tool.
