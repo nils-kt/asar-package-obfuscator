@@ -1,4 +1,4 @@
-# JavaScript Obfuscator for ASAR Archives
+# ASAR Security Suite
 
 A script that protects JavaScript files within an ASAR archive using JavaScript Obfuscator.
 
